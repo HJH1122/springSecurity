@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+</head>
+<body>
+    <h1>리스트</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>제목</th>
+                <th>작성일</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="question: ${questionList}">
+                <td th:text="${question.subject}">제목1</td>
+                <td th:text="${#temporals.format(question.created, 'yyyy-MM-dd HH:mm:ss')}">날짜1</td>
+            </tr>
+        </tbody>
+    </table>
+</body>
+</html>
