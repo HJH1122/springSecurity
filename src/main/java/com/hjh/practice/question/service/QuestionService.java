@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import com.hjh.practice.question.entity.Question;
 import com.hjh.practice.question.repository.QuestionRepository;
 
+import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 
 @Service
@@ -18,6 +19,12 @@ public class QuestionService {
     public List<Question> getList() {
        
         return questionRepository.findAll();
+    }
+
+    public Question getQuestion(Long id) {
+
+        return questionRepository.findById(id)
+            .orElseThrow(() -> new EntityNotFoundException("해당 질문이 없습니다"));
     }
     
 }
