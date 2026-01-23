@@ -10,7 +10,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.hjh.practice.answer.service.AnswerService;
 import com.hjh.practice.question.entity.Question;
+import com.hjh.practice.question.service.QuestionService;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -21,9 +23,14 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class AnswerController {
     
+    private final QuestionService questionService;
+    private final AnswerService answerService;
 
     @PostMapping("/create/{id}")
     public String create(@PathVariable("id") Long id, @RequestParam("content") String content) {
+        
+        Question question =  questionService.getQuestion(id);
+        answerService.create(question, content);
         
         return "redirect:/question/detail/" + id;
     }

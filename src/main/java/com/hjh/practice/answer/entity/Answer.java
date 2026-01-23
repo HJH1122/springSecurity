@@ -2,6 +2,8 @@ package com.hjh.practice.answer.entity;
 
 import java.time.LocalDateTime;
 
+import org.springframework.data.annotation.CreatedDate;
+
 import com.hjh.practice.question.entity.Question;
 
 import jakarta.persistence.Column;
@@ -34,9 +36,9 @@ public class Answer {
     private Long id;
 
     @Column(columnDefinition = "TEXT")
-    private Long content;
+    private String content;
 
-    
+    @CreatedDate
     private LocalDateTime created;
 
     @ManyToOne(fetch = FetchType.LAZY)
