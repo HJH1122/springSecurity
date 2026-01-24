@@ -3,25 +3,29 @@
 <head>
     <meta charset="UTF-8">
     <title>Document</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/bootstrap.min.css}">
 </head>
 <body>
-    <h1>리스트</h1>
-    <table>
-        <thead>
-            <tr>
-                <th>제목</th>
-                <th>작성일</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr th:each="question: ${questionList}">
-                <td th:text="${question.subject}">제목1</td>
-                <td>
-                    <a th:href="${|/question/detail/${question.id}|}" th:text="${question.subject}"></a>
-                </td>
-                <td th:text="${#temporals.format(question.created, 'yyyy-MM-dd HH:mm:ss')}">날짜1</td>
-            </tr>
-        </tbody>
-    </table>
+    <div class="container my-3">
+        <h1>리스트</h1>
+        <table class="table table-striped">
+            <thead class="table-dark">
+                <tr>
+                    <th>제목</th>
+                    <th>작성일</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="question: ${questionList}">
+                    <td th:text="${question.subject}">제목1</td>
+                    <td>
+                        <a th:href="${|/question/detail/${question.id}|}" th:text="${question.subject}"></a>
+                    </td>
+                    <td th:text="${#temporals.format(question.created, 'yyyy-MM-dd HH:mm:ss')}">날짜1</td>
+                </tr>
+            </tbody>
+        </table>
+        <a th:href="@{/question/create}" class="btn btn-primary">질문등록</a>
+    </div>
 </body>
 </html>

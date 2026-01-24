@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/bootstrap.min.css}">
+</head>
+<body>
+    <div class="container my-3">
+        <h1>질문등록</h1>
+        <form th:action="@{/question/create}" method="post">
+            <div class="mb-3">
+                <label for="subject" class="form-label">제목</label>
+                <input type="text" class="form-control" id="subject" name="subject">
+            </div>
+            <div class="mb-3">
+                <label for="content" class="form-label">내용</label>
+                <textarea class="form-control" id="content" name="content" >
+            </div>
+           
+          
+            <button type="submit" class="btn btn-primary">Submit</button>
+        </form>
+    </div>
+</body>
+</html>

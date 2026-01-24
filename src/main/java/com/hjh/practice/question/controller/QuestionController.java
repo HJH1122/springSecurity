@@ -6,9 +6,11 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.hjh.practice.question.dto.QuestionDto;
 import com.hjh.practice.question.entity.Question;
 import com.hjh.practice.question.repository.QuestionRepository;
 import com.hjh.practice.question.service.QuestionService;
@@ -44,6 +46,16 @@ public class QuestionController {
         model.addAttribute("question", question);
         return "question/detail";
     }
-    
-    
+
+    @GetMapping("/create")
+    public String createQuestion(@PathVariable("id") Long id, Model model) {
+        
+        return "question/inputForm";
+    }
+
+    @PostMapping("/create")
+    public String create(QuestionDto questionDto) {
+        
+        return "redirect:/question/list";
+    }
 }
