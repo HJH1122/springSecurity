@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -15,6 +16,7 @@ import com.hjh.practice.question.entity.Question;
 import com.hjh.practice.question.repository.QuestionRepository;
 import com.hjh.practice.question.service.QuestionService;
 
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
@@ -48,14 +50,22 @@ public class QuestionController {
     }
 
     @GetMapping("/create")
-    public String createQuestion(@PathVariable("id") Long id, Model model) {
-        
+    public String createQuestion(QuestionDto questionDto, Model model) {
+
+        model.addAttribute("questionDto", questionDto);
+
         return "question/inputForm";
     }
 
     @PostMapping("/create")
-    public String create(QuestionDto questionDto) {
+    public String create(@Valid QuestionDto questionDto, BindingResult bindingResult) {
+
+        if(bindingResult.hasErrors()){
+            return "question/inputForm";
+        }
         
+        questionService.create(questionDto);
+
         return "redirect:/question/list";
     }
 }

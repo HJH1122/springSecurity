@@ -4,18 +4,25 @@
     <meta charset="UTF-8">
     <title>Document</title>
     <link rel="stylesheet" type="text/css" th:href="@{/css/bootstrap.min.css}">
+    <style>
+        .fieldError {
+            color: #bc1223;
+        }
+    </style>
 </head>
 <body>
     <div class="container my-3">
         <h1>질문등록</h1>
-        <form th:action="@{/question/create}" method="post">
+        <form th:action="@{/question/create}" method="post" th:object="${questionDto}">
             <div class="mb-3">
                 <label for="subject" class="form-label">제목</label>
-                <input type="text" class="form-control" id="subject" name="subject">
+                <input type="text" class="form-control" id="subject" name="subject" th:field="*{subject}">
+                <p class="fieldError" th:if="${#fields.hasErrors('subject')}" th:errors="*{subject}"></p>
             </div>
             <div class="mb-3">
                 <label for="content" class="form-label">내용</label>
-                <textarea class="form-control" id="content" name="content" >
+                <textarea class="form-control" id="content" name="content" th:field="*{content}" rows="10"></textarea>
+                <p class="fieldError" th:if="${#fields.hasErrors('content')}" th:errors="*{content}"></p>
             </div>
            
           
