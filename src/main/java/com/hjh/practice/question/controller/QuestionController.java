@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.hjh.practice.answer.dto.AnswerDto;
 import com.hjh.practice.question.dto.QuestionDto;
 import com.hjh.practice.question.entity.Question;
 import com.hjh.practice.question.repository.QuestionRepository;
@@ -40,12 +41,13 @@ public class QuestionController {
     }
 
     @GetMapping("/detail/{id}")
-    public String detail(@PathVariable("id") Long id, Model model) {
+    public String detail(@PathVariable("id") Long id, Model model, AnswerDto answerDto) {
 
         log.info("id" + id);
         Question question = questionService.getQuestion(id);
 
         model.addAttribute("question", question);
+        model.addAttribute("answerDto", answerDto);
         return "question/detail";
     }
 

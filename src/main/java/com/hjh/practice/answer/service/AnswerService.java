@@ -2,6 +2,7 @@ package com.hjh.practice.answer.service;
 
 import org.springframework.stereotype.Service;
 
+import com.hjh.practice.answer.dto.AnswerDto;
 import com.hjh.practice.answer.entity.Answer;
 import com.hjh.practice.answer.repository.AnswerRepository;
 import com.hjh.practice.question.entity.Question;
@@ -14,10 +15,10 @@ public class AnswerService {
 
     private final AnswerRepository answerRepository;
 
-    public void create(Question question, String content) {
+    public void create(Question question, AnswerDto answerDto) {
 
         Answer answer = Answer.builder()
-            .content(content)
+            .content(answerDto.getContent())
             .question(question)
             .build();
 
