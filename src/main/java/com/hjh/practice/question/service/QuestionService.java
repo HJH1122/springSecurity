@@ -2,6 +2,9 @@ package com.hjh.practice.question.service;
 
 import java.util.List;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.hjh.practice.question.dto.QuestionDto;
@@ -17,9 +20,11 @@ public class QuestionService {
 
     private final QuestionRepository questionRepository;
 
-    public List<Question> getList() {
+    public Page<Question> getList(int page) {
+        Pageable pageable = PageRequest.of(page, 10);
+        Page<Question> paging = questionRepository.findAll(pageable);
        
-        return questionRepository.findAll();
+        return paging;
     }
 
     public Question getQuestion(Long id) {

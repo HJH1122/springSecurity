@@ -15,11 +15,11 @@
 </head>
 <body>
 
-  <div th:replace="~{fragment/header::header}"></div>
+  <div th:replace="~{fragments/header::header}"></div>
 
   <th:block layout:fragment="content" class="content"></th:block>
 
-  <div th:replace="~{fragment/footer::footer}"></div>
+  <div th:replace="~{fragments/footer::footer}"></div>
 
   <!-- JS -->
   <script type="text/javascript" th:src="@{/js/bootstrap.bundle.min.js}"></script>
