@@ -21,6 +21,7 @@ public class SecurityConfig {
         http.authorizeHttpRequests((authorize) -> authorize
                 .requestMatchers("/css/**", "/js/**").permitAll()
                 .requestMatchers("/").permitAll()
+                .requestMatchers("/member/**").permitAll()
                 .anyRequest().authenticated());
 
         return http.build();
