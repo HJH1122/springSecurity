@@ -87,4 +87,17 @@
                 <button type="submit" class="btn btn-primary">회원가입</button>
             </form>
       </div>
+      
+      <th:block layout:fragment="script">
+        <script th:inline="javascript">
+            $(function(){
+                let errorMessage = [[${errorMessage}]];
+                if(errorMessage != null){
+                    alert(errorMessage);
+                }
+            });
+
+        </script>
+      </th:block>
+
 </html>

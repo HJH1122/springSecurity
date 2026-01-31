@@ -3,6 +3,7 @@ package com.hjh.practice.member.dto;
 import com.hjh.practice.member.constant.Department;
 import com.hjh.practice.member.constant.Gender;
 
+import jakarta.validation.constraints.NotNull;
 import jakarta.persistence.Column;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
@@ -41,10 +42,10 @@ public class MemberDto {
     @Email(message = "올바른 이메일 형식이 아닙니다.")
     private String email;
 
-    @NotEmpty(message = "성별을 선택하세요.")
+    @NotNull(message = "성별을 선택하세요.")
     private Gender gender;
 
-    @NotEmpty(message = "학과를 선택하세요.")
+    @NotNull(message = "학과를 선택하세요.")
     private Department department;
 
     @AssertTrue(message = "이용약관에 동의해야 가입할 수 있습니다.")
