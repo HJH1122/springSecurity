@@ -5,6 +5,7 @@ import java.time.LocalDateTime;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
+import com.hjh.practice.audit.BaseTimeEntity;
 import com.hjh.practice.member.constant.Department;
 import com.hjh.practice.member.constant.Gender;
 
@@ -30,8 +31,7 @@ import lombok.ToString;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-@EntityListeners(AuditingEntityListener.class)
-public class Member {
+public class Member extends BaseTimeEntity{
     
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -58,6 +58,4 @@ public class Member {
     @Column(nullable = false)
     private Boolean registration;
 
-    @CreatedDate
-    private LocalDateTime created;
 }

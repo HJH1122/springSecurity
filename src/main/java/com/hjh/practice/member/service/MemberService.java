@@ -7,6 +7,7 @@ import com.hjh.practice.member.dto.MemberDto;
 import com.hjh.practice.member.entity.Member;
 import com.hjh.practice.member.repository.MemberRepository;
 
+import jakarta.persistence.EntityNotFoundException;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 
@@ -29,6 +30,14 @@ public class MemberService {
 
         memberRepository.save(member);
         
+    }
+
+    public Member getMember(String name) {
+
+        Member member = memberRepository.findByUsername(name).orElseThrow(() -> new EntityNotFoundException("해당 사용자가 존재하지 않습니다." + name));
+
+        return member;
+
     }
     
 }

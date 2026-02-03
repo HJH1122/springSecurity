@@ -9,6 +9,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import com.hjh.practice.member.entity.Member;
 import com.hjh.practice.question.dto.QuestionDto;
 import com.hjh.practice.question.entity.Question;
 import com.hjh.practice.question.repository.QuestionRepository;
@@ -37,11 +38,12 @@ public class QuestionService {
             .orElseThrow(() -> new EntityNotFoundException("해당 질문이 없습니다"));
     }
 
-    public void create(QuestionDto questionDto) {
+    public void create(QuestionDto questionDto, Member member) {
 
         Question question = Question.builder()
                 .content(questionDto.getContent())
                 .subject(questionDto.getSubject())
+                .author(member)
                 .build();
 
         questionRepository.save(question);

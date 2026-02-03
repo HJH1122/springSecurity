@@ -1,5 +1,6 @@
 package com.hjh.practice.question.controller;
 
+import java.security.Principal;
 import java.util.List;
 
 import org.springframework.data.domain.Page;
@@ -13,6 +14,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.hjh.practice.answer.dto.AnswerDto;
+import com.hjh.practice.member.entity.Member;
+import com.hjh.practice.member.service.MemberService;
 import com.hjh.practice.question.dto.QuestionDto;
 import com.hjh.practice.question.entity.Question;
 import com.hjh.practice.question.repository.QuestionRepository;
@@ -30,6 +33,7 @@ import lombok.extern.slf4j.Slf4j;
 public class QuestionController {
 
     private final QuestionService questionService;
+    private final MemberService memberService;
 
 
     @GetMapping("/list")
@@ -61,13 +65,14 @@ public class QuestionController {
     }
 
     @PostMapping("/create")
-    public String create(@Valid QuestionDto questionDto, BindingResult bindingResult) {
+    public String create(@Valid QuestionDto questionDto, BindingResult bindingResult, Principal principal) {
 
         if(bindingResult.hasErrors()){
             return "question/inputForm";
         }
-        
-        questionService.create(questionDto);
+        Member member = memberService.getMember(principal.getName());
+
+        questionService.create(questionDto, member);
 
         return "redirect:/question/list";
     }
