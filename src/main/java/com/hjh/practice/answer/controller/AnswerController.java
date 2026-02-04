@@ -1,5 +1,6 @@
 package com.hjh.practice.answer.controller;
 
+import java.security.Principal;
 import java.util.List;
 
 import org.springframework.stereotype.Controller;
@@ -13,6 +14,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.hjh.practice.answer.dto.AnswerDto;
 import com.hjh.practice.answer.service.AnswerService;
+import com.hjh.practice.member.entity.Member;
+import com.hjh.practice.member.service.MemberService;
 import com.hjh.practice.question.entity.Question;
 import com.hjh.practice.question.service.QuestionService;
 
@@ -28,9 +31,10 @@ public class AnswerController {
     
     private final QuestionService questionService;
     private final AnswerService answerService;
+    private final MemberService memberService;
 
     @PostMapping("/create/{id}")
-    public String create(@PathVariable("id") Long id, @Valid AnswerDto answerDto, BindingResult bindingResult, Model model) {
+    public String create(@PathVariable("id") Long id, @Valid AnswerDto answerDto, BindingResult bindingResult, Model model, Principal principal) {
 
         Question question =  questionService.getQuestion(id);
 
@@ -40,8 +44,10 @@ public class AnswerController {
             model.addAttribute("answerDto", answerDto);
             return "question/detail";
         }
+
+        Member member = memberService.getMember(principal.getName());
         
-        answerService.create(question, answerDto);
+        answerService.create(question, answerDto, member);
         
         return "redirect:/question/detail/" + id;
     }
