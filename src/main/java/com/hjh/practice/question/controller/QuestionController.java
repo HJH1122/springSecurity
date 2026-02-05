@@ -4,6 +4,8 @@ import java.security.Principal;
 import java.util.List;
 
 import org.springframework.data.domain.Page;
+import org.springframework.http.HttpStatus;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -12,6 +14,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.server.ResponseStatusException;
 
 import com.hjh.practice.answer.dto.AnswerDto;
 import com.hjh.practice.member.entity.Member;
@@ -75,5 +78,38 @@ public class QuestionController {
         questionService.create(questionDto, member);
 
         return "redirect:/question/list";
+    }
+
+    @PreAuthorize("isAuthenticated()")
+    @GetMapping("/modify/{id}")
+    public String modify(@PathVariable("id") Long id, QuestionDto questionDto, Principal principal) {
+
+        Question question = questionService.getQuestion(id);
+
+        if(!question.getAuthor().getUsername().equals(principal.getName())){
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "수정 권한이 없습니다.");
+        }
+
+        questionDto.setSubject(question.getSubject());
+        questionDto.setContent(question.getContent());
+
+        return "/question/inputForm";
+    }
+
+    @PreAuthorize("isAuthenticated()")
+    @PostMapping("/modify/{id}")
+    public String modify(@PathVariable("id") Long id, @Valid QuestionDto questionDto, BindingResult bindingResult, Principal principal) {
+        if(bindingResult.hasErrors()){
+            return "/question/inputForm";
+        }
+        Question question = questionService.getQuestion(id);
+
+        if(question.getAuthor().getUsername().equals(principal.getName())){
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "수정 권한이 없습니다.");
+        }
+
+        questionService.modify(question, questionDto);
+
+        return "redirect:/question/detail/" + id;
     }
 }

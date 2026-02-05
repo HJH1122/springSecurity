@@ -15,6 +15,7 @@ import com.hjh.practice.question.entity.Question;
 import com.hjh.practice.question.repository.QuestionRepository;
 
 import jakarta.persistence.EntityNotFoundException;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 
 @Service
@@ -46,7 +47,15 @@ public class QuestionService {
                 .author(member)
                 .build();
 
-        questionRepository.save(question);
+        questionRepository.save(question); //create
+    }
+
+    public void modify(Question question, QuestionDto questionDto) {
+
+        question.setSubject(questionDto.getSubject());
+        question.setContent(questionDto.getContent());
+        questionRepository.save(question); //update
+
     }
     
 }
