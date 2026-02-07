@@ -57,5 +57,10 @@ public class QuestionService {
         questionRepository.save(question); //update
 
     }
+
+    public void delete(Question question) {
+        
+        questionRepository.delete(question);
+    }
     
 }

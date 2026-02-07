@@ -8,6 +8,8 @@ import com.hjh.practice.answer.repository.AnswerRepository;
 import com.hjh.practice.member.entity.Member;
 import com.hjh.practice.question.entity.Question;
 
+import jakarta.persistence.EntityNotFoundException;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 
 @Service
@@ -25,6 +27,24 @@ public class AnswerService {
             .build();
 
         answerRepository.save(answer);
+    }
+
+    public Answer getAnswer(Long id) {
+        Answer answer = answerRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("해당 답변을 찾을 수 없습니다."));
+
+        return answer;
+    }
+
+    public void modify(Answer answer, @Valid AnswerDto answerDto) {
+
+        answer.setContent(answerDto.getContent());
+        answerRepository.save(answer);
+
+    }
+
+    public void delete(Answer answer) {
+        
+        answerRepository.delete(answer);
     }
     
 }
