@@ -1,5 +1,7 @@
 package com.hjh.practice.item.dto;
 
+import org.modelmapper.ModelMapper;
+
 import com.hjh.practice.item.entity.ItemImg;
 
 import lombok.AllArgsConstructor;
@@ -23,16 +25,11 @@ public class ItemImgDto {
     private String oriImgName;
     private String imgUrl;
     private String repImgYn;
+
+    private static ModelMapper modelMapper = new ModelMapper();
     
     public static ItemImgDto entityToDto(ItemImg itemImg){
-        ItemImgDto itemImgDto = ItemImgDto.builder()
-            .id(itemImg.getId())
-            .imgName(itemImg.getImgName())
-            .oriImgName(itemImg.getOriImgName())
-            .imgUrl(itemImg.getImgUrl())
-            .repImgYn(itemImg.getRepImgYn())
-            .build();
 
-        return itemImgDto;
+        return modelMapper.map(itemImg, ItemImgDto.class);
     }
 }
