@@ -13,6 +13,7 @@ import com.hjh.practice.item.entity.ItemImg;
 import com.hjh.practice.item.repository.ItemImgRepository;
 import com.hjh.practice.item.repository.ItemRepository;
 
+import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 
 @Service
@@ -24,9 +25,9 @@ public class ItemService {
     private final ItemImgService itemImgService;
     private final ItemImgRepository itemImgRepository;
 
-    public Long saveItem(ItemFormDto ItemFormDto, List<MultipartFile> itemImgFileList) throws IOException{
+    public Long saveItem(ItemFormDto itemFormDto, List<MultipartFile> itemImgFileList) throws IOException{
 
-        Item item = ItemFormDto.createItem();
+        Item item = itemFormDto.createItem();
         itemRepository.save(item);
 
         for(int i = 0; i < itemImgFileList.size(); i++){
@@ -39,6 +40,17 @@ public class ItemService {
                 itemImg.setRepImgYn("N");
             }
             itemImgService.saveItemImg(itemImg, itemImgFileList.get(i));
+        }
+        return item.getId();
+    }
+
+    public Long updateItem(ItemFormDto itemFormDto, List<MultipartFile> itemImgFileList) throws IOException{
+        Item item = itemRepository.findById(itemFormDto.getId()).orElseThrow(EntityNotFoundException::new);
+        item.updateItem(itemFormDto);
+        List<Long> itemImgIds = itemFormDto.getItemImgIds();
+
+        for (int i = 0; i < itemImgFileList.size(); i++) {
+            itemImgService.updateItemImg(itemImgIds.get(i), itemImgFileList.get(i));
         }
         return item.getId();
     }
