@@ -51,7 +51,7 @@ public class ItemFormDto {
         return modelMapper.map(this, Item.class);
     }
 
-    public static ItemFormDto of(Item item){
+    public static ItemFormDto entityToDto(Item item){
         return modelMapper.map(item,ItemFormDto.class);
     }
 }

@@ -1,6 +1,7 @@
 package com.hjh.practice.item.service;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
@@ -8,6 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.hjh.practice.item.dto.ItemFormDto;
+import com.hjh.practice.item.dto.ItemImgDto;
 import com.hjh.practice.item.entity.Item;
 import com.hjh.practice.item.entity.ItemImg;
 import com.hjh.practice.item.repository.ItemImgRepository;
@@ -53,5 +55,22 @@ public class ItemService {
             itemImgService.updateItemImg(itemImgIds.get(i), itemImgFileList.get(i));
         }
         return item.getId();
+    }
+
+    public ItemFormDto getItemDetail(Long itemId) {
+
+        List<ItemImg> itemImgList = itemImgRepository.findByItemIdOrderByIdAsc(itemId);
+
+        List<ItemImgDto> itemImgDtoList = new ArrayList<>();
+        for (ItemImg itemImg : itemImgList) {
+            ItemImgDto itemImgDto = ItemImgDto.entityToDto(itemImg);
+            itemImgDtoList.add(itemImgDto);
+        }
+        Item item = itemRepository.findById(itemId).orElseThrow(() -> new EntityNotFoundException("해당 상품이 존재하지 않습니다. id=" + itemId));
+        ItemFormDto itemFormDto = ItemFormDto.entityToDto(item);
+        itemFormDto.setItemImgDtoList(itemImgDtoList);
+
+        return itemFormDto;
+
     }
 }
