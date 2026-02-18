@@ -4,12 +4,17 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.hjh.practice.item.dto.ItemFormDto;
 import com.hjh.practice.item.dto.ItemImgDto;
+import com.hjh.practice.item.dto.ItemSearchDto;
+import com.hjh.practice.item.dto.MainItemDto;
 import com.hjh.practice.item.entity.Item;
 import com.hjh.practice.item.entity.ItemImg;
 import com.hjh.practice.item.repository.ItemImgRepository;
@@ -73,4 +78,10 @@ public class ItemService {
         return itemFormDto;
 
     }
+
+    public Page<Item> getAdminItemPage(ItemSearchDto itemSearchDto, Pageable pageable) {
+        return itemRepository.getAdminItemPage(itemSearchDto, pageable);
+    }
+
+
 }

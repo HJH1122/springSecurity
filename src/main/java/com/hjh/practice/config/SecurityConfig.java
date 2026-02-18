@@ -22,13 +22,14 @@ public class SecurityConfig {
 
         http.formLogin(form -> form
                 .loginPage("/member/login")
-                .defaultSuccessUrl("/")
+                .defaultSuccessUrl("/", true)
                 .failureUrl("/member/login/error")
                 .usernameParameter("username")
                 .passwordParameter("password")
                 .permitAll());
 
-        http.logout(Customizer.withDefaults());
+        http.logout(logout -> logout
+        .logoutSuccessUrl("/"));
 
         http.authorizeHttpRequests((authorize) -> authorize
                 .requestMatchers("/css/**", "/js/**", "/images/**").permitAll()
