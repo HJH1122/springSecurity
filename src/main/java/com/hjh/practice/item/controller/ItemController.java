@@ -74,9 +74,30 @@ public class ItemController {
             return "item/itemForm";
         } catch(EntityNotFoundException e) {
             model.addAttribute("errorMessage", "존재하지 않는 상품입니다.");
+            model.addAttribute("itemFormDto", new ItemFormDto());
             
             return "item/itemForm";
         }
+    }
+
+    @PostMapping("/{itemId}")
+    public String itemUpdate(@Valid ItemFormDto itemFormDto, @RequestParam("itemImgFile") List<MultipartFile> itemImgFileList, BindingResult bindingResult, Model model) {
+
+        if(bindingResult.hasErrors()){
+            return "item/itemForm";
+        }
+        if(itemImgFileList.get(0).isEmpty() && itemFormDto.getId() == null){
+            model.addAttribute("errorMessage", "첫번째 상품이미지는 필수입니다.");
+            return "item/itemForm";
+        }
+
+        try {
+            itemService.updateItem(itemFormDto, itemImgFileList);
+        } catch (IOException e) {
+            model.addAttribute("errorMessage", "상품 수정중 오류가 발생했습니다.");
+            return "item/itemForm";
+        }
+        return "redirect:/";
     }
 
     @GetMapping({"/items", "/items/{page}"})
@@ -91,5 +112,6 @@ public class ItemController {
 
         return "item/itemList";
     }
+    
 
 }
