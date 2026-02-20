@@ -119,9 +119,9 @@ public class ItemRepositoryCustomImpl implements ItemRepositoryCustom  {
      * @return
      */
     private BooleanExpression searchByLike(String searchBy, String searchQuery) {
-        if(StringUtils.equals("itemName", searchBy)){
+        if(StringUtils.equals("itemNm", searchBy)){
             return item.itemNm.like("%" + searchQuery + "%");    // 검색어가 itemName이면 itemNm에 검색어가 포함되어 있는지 반환
-        } else if(StringUtils.equals("createBy", searchBy)){
+        } else if(StringUtils.equals("createdBy", searchBy)){
             return item.createdBy.like("%" + searchQuery + "%");  // 검색어가 createdBy이면 createdBy에 검색어가 포함되어 있는지 반환
         }
         return null;
